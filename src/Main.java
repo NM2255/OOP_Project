@@ -1,7 +1,36 @@
 import java.io.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
+
+
+class admin{
+    public int adminId;
+    public String adminUsername;
+    public String adminPassword;
+
+    public ArrayList<admin> admins = new ArrayList<admin>();
+
+    public admin(int adminId, String adminUsername, String adminPassword){
+        this.adminId = adminId;
+        this.adminUsername = adminUsername;
+        this.adminPassword = adminPassword;
+    }
+
+    public void addAdmin(admin oAdmin){
+        admins.add(oAdmin);
+    }
+
+    public void searchAdmin(){
+        boolean found = admins.contains(adminUsername + adminPassword);
+        if(found == true){
+            boolean exit = false;
+        }
+    }
+
+
+}
 
 class bus {
     public int busId;
@@ -91,17 +120,33 @@ class booking {
 public class Main {
 
     public static void main(String[] args) throws IOException {
-	// write your code here
         File file = new File("/home/ammar/Documents/OOP_Project/testbus.txt");
         File file1 = new File("/home/ammar/Documents/OOP_Project/testcust.txt");
         PrintWriter write = new PrintWriter(file);
         PrintWriter write1 = new PrintWriter(file1);
 
+        Scanner ip = new Scanner(System.in);
+
+        int adminId;
+        String adminUsername;
+        String adminPassword;
+
+        System.out.println("Enter Id");
+        adminId = ip.nextInt();
+
+        System.out.println("Enter username");
+        adminUsername = ip.next();
+
+        System.out.println("Enter Pass");
+        adminPassword = ip.next();
+
+        admin oAdmin = new admin(adminId, adminUsername,adminPassword);
+
         boolean exit = false;
+
         while (exit == false) {
 
             System.out.println("Press 1 for Adding bus \nPress 2 for Adding customer \nPress 0 to Exit");
-            Scanner ip = new Scanner(System.in);
             int selectioninput = ip.nextInt();
 
             if (selectioninput == 1) {
@@ -151,6 +196,8 @@ public class Main {
             else if (selectioninput == 0) {
                 exit = true;
             }
+
+
         }
     }
 }
