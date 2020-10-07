@@ -4,46 +4,52 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
-
+// Admin/Login class
 class admin{
     public int adminId;
     public String adminUsername;
     public String adminPassword;
 
     public ArrayList<admin> admins = new ArrayList<admin>();
-
+    //constructor for admin class
     public admin(int adminId, String adminUsername, String adminPassword){
         this.adminId = adminId;
         this.adminUsername = adminUsername;
         this.adminPassword = adminPassword;
     }
-
+    //Method for add admins to database
     public void addAdmin(admin oAdmin){
         admins.add(oAdmin);
     }
-
-    public void searchAdmin(){
-        boolean found = admins.contains(adminUsername + adminPassword);
+    //Method for searching admins from database
+    public boolean searchAdmin(){
+        boolean exit = true;
+        boolean found = admins.contains(adminUsername);
         if(found == true){
-            boolean exit = false;
+            exit = false;
         }
+
+        else{
+            exit = true;
+        }
+        return exit;
     }
 
 
 }
-
+// class for bus
 class bus {
     public int busId;
     public String busName;
     public int busNumber;
 
-
+    //constructor for bus class
     public bus(int busId,String busName, int busNumber){
         this.busId = busId;
         this.busName = busName;
         this.busNumber = busNumber;
     }
-
+    //method for adding bus
     public void addBus(PrintWriter write){
         write.print("Bus Id: " + busId + " Bus Name: " + busName + " Bus Number: "+ busNumber);
     }
@@ -67,14 +73,14 @@ class customer {
     public String customerName;
     public int customerPhone;
     public String customerAddr;
-
+    //constructor for costomer class
     public customer(int customerId, String customerName, int customerPhone, String customerAddr){
         this.customerId = customerId;
         this.customerName = customerName;
         this.customerPhone = customerPhone;
         this.customerAddr = customerAddr;
     }
-
+    //method for adding customers
     public void addCustomer(PrintWriter write1){
         write1.print("Customer Id: " + customerId + " Customer Name: " + customerName + " Customer Phone: "+ customerPhone + " Customer Address: " + customerAddr);
     }
@@ -92,7 +98,7 @@ class customer {
     }
 
 }
-
+//class for booking
 class booking {
     public int bookingId;
     public String bookingTitle;
@@ -120,14 +126,20 @@ class booking {
 public class Main {
 
     public static void main(String[] args) throws IOException {
+
+        //initializing files
         File file = new File("/home/ammar/Documents/OOP_Project/testbus.txt");
         File file1 = new File("/home/ammar/Documents/OOP_Project/testcust.txt");
+
+        //Print writer for writing files
         PrintWriter write = new PrintWriter(file);
         PrintWriter write1 = new PrintWriter(file1);
 
+        //scanner for input
         Scanner ip = new Scanner(System.in);
 
-        int adminId;
+        //inputs for logins
+        /*int adminId;
         String adminUsername;
         String adminPassword;
 
@@ -142,8 +154,13 @@ public class Main {
 
         admin oAdmin = new admin(adminId, adminUsername,adminPassword);
 
-        boolean exit = false;
+        oAdmin.addAdmin(oAdmin);
 
+        boolean exit = oAdmin.searchAdmin();*/
+
+        boolean exit = false;
+        
+        //loop for inputs for adding buses and customers
         while (exit == false) {
 
             System.out.println("Press 1 for Adding bus \nPress 2 for Adding customer \nPress 0 to Exit");
