@@ -37,11 +37,13 @@ class admin{
 
 
 }
+
 // class for bus
 class bus {
     public int busId;
     public String busName;
     public int busNumber;
+
 
     //constructor for bus class
     public bus(int busId,String busName, int busNumber){
@@ -68,56 +70,77 @@ class bus {
 
 }
 
-class customer {
-    public int customerId;
-    public String customerName;
-    public int customerPhone;
-    public String customerAddr;
-    //constructor for costomer class
-    public customer(int customerId, String customerName, int customerPhone, String customerAddr){
-        this.customerId = customerId;
-        this.customerName = customerName;
-        this.customerPhone = customerPhone;
-        this.customerAddr = customerAddr;
-    }
-    //method for adding customers
-    public void addCustomer(PrintWriter write1){
-        write1.print("Customer Id: " + customerId + " Customer Name: " + customerName + " Customer Phone: "+ customerPhone + " Customer Address: " + customerAddr);
-    }
+//passenger class
+class passenger {
+    public int passengerId;
+    public String passengerName;
+    public int passengerPhone;
+    public String passengerAddr;
 
-    public void deleteCustomer(){
-
+    //constructor for passenger class
+    public passenger(int passengerId, String passengerName, int passengerPhone, String passengerAddr){
+        this.passengerId = passengerId;
+        this.passengerName = passengerName;
+        this.passengerPhone = passengerPhone;
+        this.passengerAddr = passengerAddr;
+    }
+    //method for adding passengers
+    public void addPassenger(PrintWriter write1){
+        write1.print("Passenger Id: " + passengerId + " Customer Name: " + passengerName + " Customer Phone: "+ passengerPhone + " Customer Address: " + passengerAddr);
     }
 
-    public void editCustomer(){
+    public void deletePassenger(){
+        //deletes passenger from database
 
     }
 
-    public void searchCustomer(){
+    public void editPassenger(){
+        //edits passenger from database
+
+    }
+
+    public void searchPassenger(){
+        //searches passenger from database
 
     }
 
 }
-//class for booking
-class booking {
-    public int bookingId;
-    public String bookingTitle;
-    public Date bookingDate;
-    public String bookingDesc;
 
-    public void addBooking(){
+//class for reservation
+class reservation {
+    public int reservationId;
+    public String departure;
+    public String destination;
+    public Date departureDate;
+    public Date returnDate;
+
+    //constructor for reservation class
+    public reservation(int reservationId, String departure, String destination, Date departureDate, Date returnDate){
+        this.reservationId = reservationId;
+        this.departure = departure;
+        this.destination = destination;
+        this.departureDate = departureDate;
+        this.returnDate = returnDate;
+    }
+
+
+    public void addReservation(){
+        //adds reservation details to database
 
     }
 
-    public void deleteBooking(){
+    public void deleteReservation(){
+        //delete reservation details from database
 
     }
 
-    public void editBooking(){
+    public void editReservation(){
+        //edit reservation details
 
     }
 
-    public void searchBooking(){
+    public void searchReservation(){
+        //search reservation details from database
 
     }
 
@@ -185,27 +208,29 @@ public class Main {
                 oBus.addBus(write);
 
                 write.close();
-            } else if (selectioninput == 2) {
-                int customerId;
-                String customerName;
-                int customerPhone;
-                String customerAddr;
+            }
+
+            else if (selectioninput == 2) {
+                int passengerId;
+                String passengerName;
+                int passengerPhone;
+                String passengerAddr;
 
                 System.out.println("Enter Customer Id");
-                customerId = ip.nextInt();
+                passengerId = ip.nextInt();
 
                 System.out.println("Enter Customer Name");
-                customerName = ip.next();
+                passengerName = ip.next();
 
                 System.out.println("Enter Customer Phone");
-                customerPhone = ip.nextInt();
+                passengerPhone = ip.nextInt();
 
                 System.out.println("Enter Customer Address");
-                customerAddr = ip.next();
+                passengerAddr = ip.next();
 
-                customer oCust = new customer(customerId, customerName, customerPhone, customerAddr);
+                passenger oPsngr = new passenger(passengerId, passengerName, passengerPhone, passengerAddr);
 
-                oCust.addCustomer(write1);
+                oPsngr.addPassenger(write1);
 
                 write1.close();
             }
