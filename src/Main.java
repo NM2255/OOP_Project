@@ -1,7 +1,9 @@
+
 import java.io.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.sql.*;
 import java.util.Scanner;
 
 // Admin/Login class
@@ -42,18 +44,21 @@ class admin{
 class bus {
     public int busId;
     public String busName;
-    public int busNumber;
+    public String busNumber;
 
 
     //constructor for bus class
-    public bus(int busId,String busName, int busNumber){
+    public bus(String busName, String busNumber){
         this.busId = busId;
         this.busName = busName;
         this.busNumber = busNumber;
     }
     //method for adding bus
-    public void addBus(PrintWriter write){
-        write.print("Bus Id: " + busId + " Bus Name: " + busName + " Bus Number: "+ busNumber);
+    public void addBus(PreparedStatement psBus,Connection con) throws Exception{
+        String in = ("insert into bus(busName,busNumber)"+
+                "values ('" + busName + "','" + busNumber +"')");
+        psBus = con.prepareStatement(in);
+        psBus.executeUpdate();
     }
 
     public void deleteBus(){
@@ -61,6 +66,8 @@ class bus {
     }
 
     public void editBus(){
+        /* write database in user"; */
+
 
     }
 
@@ -68,6 +75,22 @@ class bus {
 
     }
 
+    public void output(PreparedStatement psBus, Connection con,ResultSet rsBus) throws Exception {
+        /*read user data from database */
+
+        String sql = "select * from bus";
+        psBus = con.prepareStatement(sql);
+        rsBus = psBus.executeQuery();
+
+        while (rsBus.next()) {
+            System.out.println("id " + rsBus.getInt(1));
+            System.out.println("busName " + rsBus.getString(2));
+            System.out.println("busNumber " + rsBus.getString(3));
+
+        };
+
+
+    }
 }
 
 //passenger class
@@ -78,15 +101,18 @@ class passenger {
     public String passengerAddr;
 
     //constructor for passenger class
-    public passenger(int passengerId, String passengerName, int passengerPhone, String passengerAddr){
+    public passenger( String passengerName, int passengerPhone, String passengerAddr){
         this.passengerId = passengerId;
         this.passengerName = passengerName;
         this.passengerPhone = passengerPhone;
         this.passengerAddr = passengerAddr;
     }
     //method for adding passengers
-    public void addPassenger(PrintWriter write1){
-        write1.print("Passenger Id: " + passengerId + " Customer Name: " + passengerName + " Customer Phone: "+ passengerPhone + " Customer Address: " + passengerAddr);
+    public void addPassenger(PreparedStatement psPsngr, Connection con) throws Exception {
+        String in = ("insert into passenger(passengerName,passengerPhone,passengerAddr)"+
+                "values ('" + passengerName + "','" + passengerPhone +"','" + passengerAddr +"')");
+        psPsngr = con.prepareStatement(in);
+        psPsngr.executeUpdate();
     }
 
     public void deletePassenger(){
@@ -96,11 +122,31 @@ class passenger {
 
     public void editPassenger(){
         //edits passenger from database
+        /* write database in user"; */
+
 
     }
 
     public void searchPassenger(){
         //searches passenger from database
+
+    }
+
+    public void output(PreparedStatement psPsngr, Connection con,ResultSet rsPsngr) throws Exception {
+        /*read user data from database */
+
+        String sql = "select * from passenger";
+        psPsngr = con.prepareStatement(sql);
+        rsPsngr = psPsngr.executeQuery();
+
+        while (rsPsngr.next()) {
+            System.out.println("id " + rsPsngr.getInt(1));
+            System.out.println("passengerName " + rsPsngr.getString(2));
+            System.out.println("passengerPhone " + rsPsngr.getInt(3));
+            System.out.println("passengerAddr " + rsPsngr.getString(4));
+
+        };
+
 
     }
 
@@ -132,10 +178,13 @@ class reservation {
     public void deleteReservation(){
         //delete reservation details from database
 
+
     }
 
     public void editReservation(){
         //edit reservation details
+        /* write database in user"; */
+
 
     }
 
@@ -148,15 +197,38 @@ class reservation {
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
+
+
+
+        /*declare variables for database conection */
+        Connection con = null;
+        PreparedStatement psPsngr = null;
+
+        ResultSet rsPsngr = null;
+        PreparedStatement psBus=null;
+        ResultSet rsBus =null;
+        /*establishing connertion with data base */
+        Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+        con = DriverManager.getConnection("jdbc:ucanaccess://e://oopdatabase.accdb");
+        //Scanner obj = new Scanner(System.in);
+
+
+
+      /*  while (rs.next()) {
+            System.out.println("id " + rs.getInt(1));
+            System.out.println("Name1 " + rs.getString(2));
+            System.out.println("fathername " + rs.getString(3));
+            System.out.println("id " + rs.getInt(4));
+            System.out.println("ticketno " + rs.getString(5));
+        }
+*/
 
         //initializing files
-        File file = new File("/home/ammar/Documents/OOP_Project/testbus.txt");
-        File file1 = new File("/home/ammar/Documents/OOP_Project/testcust.txt");
+
 
         //Print writer for writing files
-        PrintWriter write = new PrintWriter(file);
-        PrintWriter write1 = new PrintWriter(file1);
+
 
         //scanner for input
         Scanner ip = new Scanner(System.in);
@@ -182,42 +254,53 @@ public class Main {
         boolean exit = oAdmin.searchAdmin();*/
 
         boolean exit = false;
-        
+
         //loop for inputs for adding buses and customers
         while (exit == false) {
 
-            System.out.println("Press 1 for Adding bus \nPress 2 for Adding customer \nPress 0 to Exit");
+            System.out.println("Press 1 for Adding bus \nPress 2 to Show bus  \nPress 3 for Adding Passenger \nPress 4 to Show Passengers \nPress 0 to Exit");
             int selectioninput = ip.nextInt();
 
             if (selectioninput == 1) {
                 int busId;
                 String busName;
-                int busNumber;
+                String busNumber;
 
-                System.out.println("Enter bus Id");
-                busId = ip.nextInt();
+
 
                 System.out.println("Enter bus Name");
                 busName = ip.next();
 
                 System.out.println("Enter bus Number");
-                busNumber = ip.nextInt();
+                busNumber = ip.next();
 
-                bus oBus = new bus(busId, busName, busNumber);
+                bus oBus = new bus(busName, busNumber);
 
-                oBus.addBus(write);
+                oBus.addBus(psBus,con);
 
-                write.close();
+
+
+
             }
 
-            else if (selectioninput == 2) {
+            else if (selectioninput == 2){
+                String busName = null;
+                String busNumber = null;
+                bus oBus = new bus(busName, busNumber);
+
+                oBus.output(psBus,con,rsBus);
+            }
+
+            else if (selectioninput == 3) {
                 int passengerId;
                 String passengerName;
                 int passengerPhone;
                 String passengerAddr;
 
-                System.out.println("Enter Customer Id");
-                passengerId = ip.nextInt();
+                /*System.out.println("Enter Customer Id");
+
+
+                passengerId = ip.nextInt(); */
 
                 System.out.println("Enter Customer Name");
                 passengerName = ip.next();
@@ -228,11 +311,20 @@ public class Main {
                 System.out.println("Enter Customer Address");
                 passengerAddr = ip.next();
 
-                passenger oPsngr = new passenger(passengerId, passengerName, passengerPhone, passengerAddr);
+                passenger oPsngr = new passenger(passengerName, passengerPhone, passengerAddr);
 
-                oPsngr.addPassenger(write1);
+                oPsngr.addPassenger(psPsngr, con);
 
-                write1.close();
+
+            }
+
+            else if (selectioninput == 4){
+                String passengerName = null;
+                int passengerPhone = 0;
+                String passengerAddr = null;
+                passenger oPsngr = new passenger(passengerName,passengerPhone,passengerAddr);
+
+                oPsngr.output(psPsngr,con,rsPsngr);
             }
 
             else if (selectioninput == 0) {
