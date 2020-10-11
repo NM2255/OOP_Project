@@ -66,16 +66,17 @@ public class Oopdatabase {
         if(r == 1){
             System.out.println("record delete successfully");
         }
-        
+        }
         
         // for Edit
         
         else{
         
+         int id;
         String name, pasword;
         
         con = DriverManager.getConnection("jdbc:ucanaccess://oopdatabase.accdb");
-        ps = con.prepareStatement("update student set name = ?, pasword = ?,where ID = ?");
+        ps = con.prepareStatement("update Admin set name = ?, pasword = ? where ID = ?");
         System.out.println("Enter the new name");
         name = obj.next();
         System.out.println("Enter the new pasword");
@@ -90,7 +91,6 @@ public class Oopdatabase {
             System.out.println("record Update successfully");
         }
         }
-    }
          
 }
          
@@ -150,7 +150,33 @@ public class Oopdatabase {
             System.out.println("record delete successfully");
         }
         }
+         else{
         
+         int id, nic;
+        String name, fatherName, tickno;
+        
+        con = DriverManager.getConnection("jdbc:ucanaccess://oopdatabase.accdb");
+        ps = con.prepareStatement("update Admin set name1 = ?, fathername = ?, nic = ?, ticketno = ? where ID = ?");
+        System.out.println("Enter the new name");
+        name = obj.next();
+        System.out.println("Enter the new Father name");
+        fatherName = obj.next();
+        System.out.println("Enter a new NIC");
+        nic = obj.nextInt();
+        System.out.println("Enter a Ticket no");
+        tickno = obj.next();
+        System.out.println("Enter the id to update the Record");
+        id = obj.nextInt();
+        ps.setString(1, name);
+        ps.setString(2, fatherName);
+        ps.setInt(3, nic);
+        ps.setString(4, tickno);
+        ps.setInt(5, id); 
+        int s = ps.executeUpdate();
+        if(s > 0){
+            System.out.println("record Update successfully");
+        }
+        }
         }
         
     }
