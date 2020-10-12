@@ -2,7 +2,6 @@ package com.shahiqinc;
 // Ignore all this
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,26 +11,6 @@ public class Main {
 
     public static void main(String[] args) {
         new WelcomeScreen();
-    }
-}
-class RoundedBorder implements Border {
-
-    private int radius;
-
-    RoundedBorder(int radius) {
-        this.radius = radius;
-    }
-
-    public Insets getBorderInsets(Component c) {
-        return new Insets(this.radius+1, this.radius+1, this.radius+2, this.radius);
-    }
-
-    public boolean isBorderOpaque() {
-        return true;
-    }
-
-    public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-        g.drawRoundRect(x, y, width-1, height-1, radius, radius);
     }
 }
 
@@ -45,6 +24,11 @@ class WelcomeScreen extends JFrame {
     private double height = screenSize.getHeight();
     private String uname;
     private String pwd;
+    JTextField user_name = new JTextField(20);
+    JPasswordField password = new JPasswordField(20);
+    JLabel empty = new JLabel();
+    JLabel empty2 = new JLabel();
+    JLabel empty5 = new JLabel();
 
 //    The Title of the window
     JTextField newTitle = new JTextField("UBIT Travel and Tours");
@@ -63,11 +47,6 @@ class WelcomeScreen extends JFrame {
         JLabel j2 = new JLabel();
         JLabel j3 = new JLabel();
         JLabel j6 = new JLabel();
-        JLabel empty = new JLabel();
-        JLabel empty2 = new JLabel();
-        JLabel empty5 = new JLabel();
-        JTextField user_name = new JTextField(20);
-        JPasswordField password = new JPasswordField(20);
         JButton b1 = new JButton("Log In");
 
 //        Creating a new JPanel for JSplitPane and it's basic settings.
@@ -123,13 +102,7 @@ class WelcomeScreen extends JFrame {
         empty5.setBorder(new EmptyBorder(10,(int)width,10,(int)width));
         logo.add(empty5);
 
-//        Saving user name and password into two static variables.
-        variableCredentials.uname = user_name.getText();
-        variableCredentials.pword = password.getPassword();
 
-//        Saving user name and password into two local variables.
-        uname = variableCredentials.uname;
-        pwd = String.valueOf(variableCredentials.pword);;
 
 //        Adding the button to JPanel and tweaking it's visual settings.
         b1.setPreferredSize(new Dimension((int)width/10,44));
@@ -164,10 +137,35 @@ class WelcomeScreen extends JFrame {
 //    Function declaration for the button press.
     public void registerButtonPressed(){
 
+
+        if(user_name.getText().trim().equals("")){
+            empty2.setText("Enter your username!");
+        }
+        else{
+            empty2.setText("");
+        }
+        if(password.getPassword().length == 0){
+            empty5.setText("Enter your password!");
+        }
+        else{
+            empty5.setText("");
+        }
+        if(!user_name.getText().trim().equals("")&&(password.getPassword().length != 0)){
+
+//        Saving user name and password into two static variables.
+            variableCredentials.uname = user_name.getText();
+            variableCredentials.pword = password.getPassword();
+
+//        Saving user name and password into two local variables.
+            uname = variableCredentials.uname;
+            pwd = String.valueOf(variableCredentials.pword);
+
 /*       Ahsan your task starts from here. This method will be called after button is pressed.Data is already saved in
 *        two variables defined above, look for the "Saving user name and password into two local variables." comment
 *        and you will find them.
 * */
 
+//            new userMenu();
+        }
     }
 } // End of the WelcomeScreen Class.
