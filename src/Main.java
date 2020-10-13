@@ -15,29 +15,33 @@ class admin{
     public String adminUsername;
     public String adminPassword;
 
-    public ArrayList<admin> admins = new ArrayList<admin>();
+
     //constructor for admin class
-    public admin(int adminId, String adminUsername, String adminPassword){
+    public admin(String adminUsername, String adminPassword){
         this.adminId = adminId;
         this.adminUsername = adminUsername;
         this.adminPassword = adminPassword;
     }
     //Method for add admins to database
-    public void addAdmin(admin oAdmin){
-        admins.add(oAdmin);
+    public void addAdmin(){
+
     }
     //Method for searching admins from database
-    public boolean searchAdmin(){
-        boolean exit = true;
-        boolean found = admins.contains(adminUsername);
-        if(found == true){
-            exit = false;
-        }
+    public void searchAdmin(PreparedStatement psAdmin, Connection con, ResultSet rsAdmin,String uname, String pwd) throws SQLException {
 
-        else{
-            exit = true;
+
+        // login method search username & password
+        psAdmin = con.prepareStatement("select * from admin where username = ? and password = ?");
+
+        // compare both values of username and uname or password & pwd
+        psAdmin.setString(1, uname);
+        psAdmin.setString(2, String.valueOf(pwd));
+        rsAdmin = psAdmin.executeQuery();
+
+        // if rs.next() =  true So condition run other wise run else
+        if (rsAdmin.next()) {
+            System.out.println("login successful");
         }
-        return exit;
     }
 
 
@@ -339,8 +343,10 @@ public class Main {
         Connection con = null;
         PreparedStatement psPsngr = null;
         PreparedStatement psRes = null;
-        ResultSet rsPsngr = null;
+        PreparedStatement psAdmin = null;
         PreparedStatement psBus=null;
+        ResultSet rsPsngr = null;
+        ResultSet rsAdmin = null;
         ResultSet rsBus =null;
         /*establishing connertion with data base */
         Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
@@ -379,7 +385,7 @@ public class Main {
                     "\nPress 3 for Adding Passenger \nPress 4 to Show Passengers" +
                     "\nPress 5 to add Reservation \nPress 6 to search bus" +
                     "\nPress 7 to delete pesenger \n Press 8 to delete Reservation " +
-                    "\n Press 9 to edit pesenger \nPress 0 to Exit");
+                    "\n Press 9 to edit pesenger \nPress 10 to login \nPress 0 to Exit");
             int selectioninput = ip.nextInt();
 
             //Press 1 for Adding bus
@@ -531,6 +537,21 @@ public class Main {
                 passenger psngr=new passenger();
                 psngr.editPassenger(psPsngr,con,rsPsngr);
 
+            }
+
+            else if(selectioninput == 10){
+                String adminUsername;
+                String adminPassword;
+
+                System.out.println("Enter username");
+                adminUsername = ip.next();
+
+                System.out.println("Enter Password");
+                adminPassword= ip.next();
+
+                admin oAdmin = new admin(adminUsername, adminPassword);
+
+                oAdmin.searchAdmin(psAdmin,con,rsAdmin,adminUsername,adminPassword);
             }
 
             else if (selectioninput == 0) {
