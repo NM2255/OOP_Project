@@ -40,6 +40,11 @@ class admin{
         return exit;
     }
 
+    //search admin
+    public void searchAdmin(Connection con,PreparedStatement psAdmin)throws Exception{
+    
+    }
+
 
 }
 
@@ -50,6 +55,7 @@ class bus {
     public String busNumber;
     public String busRoute;
     public String busTiming;
+
 
 
     //constructor for bus class
@@ -66,8 +72,8 @@ class bus {
     }
     //method for adding bus
     public void addBus(PreparedStatement psBus,Connection con) throws Exception{
-        String in = ("insert into bus(busName,busNumber)"+
-                "values ('" + busName + "','" + busNumber +"')");
+        String in = ("insert into bus(busName,busNumber,busTiming,busRoute)"+
+                "values ('" + busName + "','" + busNumber +"','" +busTiming +"','" +busRoute +"')");
         psBus = con.prepareStatement(in);
         psBus.executeUpdate();
     }
@@ -98,6 +104,7 @@ class bus {
 
     public void searchBus(){
 
+
     }
 
     public void showSchedule(PreparedStatement psBus, Connection con,ResultSet rsBus) throws Exception {
@@ -111,6 +118,7 @@ class bus {
             System.out.println("id " + rsBus.getInt(1));
             System.out.println("busName " + rsBus.getString(2));
             System.out.println("busNumber " + rsBus.getString(3));
+            System.out.println("busTiming "+rsBus.getString(4));
 
         };
 
@@ -266,8 +274,8 @@ class reservation {
     public void addReservation(PreparedStatement psRes, Connection con,passenger oPsngr, bus oBus) throws SQLException {
 
         //adds reservation details to database
-        String in = ("insert into reservation(departure,destination,departureDate,returnDate,busName,busNumber,passengerName,passengerPhone,passengerAddr)" +
-                "values ('" + departure + "','" + destination + "','" + departureDate + "','" + returnDate + "','" + passengerName + "','" + passengerPhone + "','" + passengerAddr + "','" + passengerNic + "','" + busName + "','" + busNumber + "')");
+        String in = ("insert into reservation(departure,destination,departureDate,returnDate,passengerName,passengerNic,passengerPhone,passengerAddr,busName,busNumber)" +
+                "values ('" + departure + "','" + destination + "','" + departureDate + "','" + returnDate + "','" + passengerName + "','" + passengerNic + "','" + passengerPhone + "','" + passengerAddr + "','" + busName + "','" + busNumber + "')");
         psRes = con.prepareStatement(in);
         psRes.executeUpdate();
     }
