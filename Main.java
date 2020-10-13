@@ -1,4 +1,4 @@
-package com.shahiqinc;
+//package com.shahiqinc;
 // Ignore all this
 
 import javax.swing.*;
@@ -6,8 +6,9 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
 
-public class Main {
+public class main {
 
     public static void main(String[] args) {
         new WelcomeScreen();
@@ -159,11 +160,50 @@ class WelcomeScreen extends JFrame {
 //        Saving user name and password into two local variables.
             uname = variableCredentials.uname;
             pwd = String.valueOf(variableCredentials.pword);
-
+            
 /*       Ahsan your task starts from here. This method will be called after button is pressed.Data is already saved in
-*        two variables defined above, look for the "Saving user name and password into two local variables." comment
+*        two variables 
+         defined above, look for the "Saving user name and password into two local variables." comment
 *        and you will find them.
 * */
+           // Define Database connection
+           Connection con = null;
+           PreparedStatement pst = null;
+           ResultSet rs = null;
+           
+            try {
+                // define file path
+                Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+                con = DriverManager.getConnection("jdbc:ucanaccess://oopdatabase.accdb");
+                
+                // login method search username & password
+                pst = con.prepareStatement("select * from admin where username = ? and password = ?");
+                
+                // compare both values of username and uname or password & pwd
+                pst.setString(1, uname);
+                pst.setString(2, pwd);
+                rs = pst.executeQuery();
+                
+                // if rs.next() =  true So condition run other wise run else 
+                if (rs.next()){
+                    JOptionPane.showMessageDialog(null, "Login Successfull");
+                    user_name.setText("");
+                    password.setText("");
+
+//                    new WelcomeScreen();
+                    
+                    //=================================================\\
+                   //====>> shahiq broO your working start from there....
+                  //=====================================================\\
+                    
+                }else{
+                    JOptionPane.showMessageDialog(null, "Login Failed please try again");
+                }
+            } 
+            catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+            
 
 //            new userMenu();
         }
