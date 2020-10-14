@@ -380,6 +380,7 @@ public class Main {
         ResultSet rsPsngr = null;
         ResultSet rsAdmin = null;
         ResultSet rsBus =null;
+        ResultSet rsRes = null;
         /*establishing connertion with data base */
         Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
         con = DriverManager.getConnection("jdbc:ucanaccess://e://oopdatabase.accdb");
@@ -586,6 +587,12 @@ public class Main {
                 passenger psngr=new passenger();
                 psngr.editPassenger(psPsngr,con,rsPsngr);
 
+            }
+
+            else if (selectioninput == 11){
+                reservation oRes = new reservation();
+
+                oRes.output(psRes,con,rsRes);
             }
 
 
