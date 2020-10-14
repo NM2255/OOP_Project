@@ -140,30 +140,35 @@ class bus {
 //passenger class
 class passenger {
     public int passengerId;
-    public String passengerName;
-    public int passengerPhone;
+    public String passengerfirstName;
+    public String passengerlastName;
+    public String passengerPhone;
     public String passengerAddr;
-    public int passengerNic;
+    public String passengerNic;
 
     //constructor for passenger class
     public passenger(){
 
     }
 
-    public passenger( int passengerId,String passengerName, int passengerPhone, String passengerAddr, int passengerNic){
+    public passenger( int passengerId,String passengerfirstName,String passengerlastName, String passengerPhone, String passengerAddr, String passengerNic){
         this.passengerId = passengerId;
-        this.passengerName = passengerName;
+        this.passengerfirstName = passengerfirstName;
+        this.passengerlastName = passengerlastName;
         this.passengerPhone = passengerPhone;
         this.passengerAddr = passengerAddr;
         this.passengerNic = passengerNic;
 
     }
 
-    public String getPassengerName() {
-        return passengerName;
+    public String getPassengerfirstName() {
+        return passengerfirstName;
+    }
+    public String getPassengerlastName() {
+        return passengerlastName;
     }
 
-    public int getPassengerPhone() {
+    public String getPassengerPhone() {
         return passengerPhone;
     }
 
@@ -171,14 +176,14 @@ class passenger {
         return passengerAddr;
     }
 
-    public int getPassengerNic() {
+    public String getPassengerNic() {
         return passengerNic;
     }
 
     //method for adding passengers
     public void addPassenger(PreparedStatement psPsngr, Connection con) throws Exception {
-        String in = ("insert into passenger(passengerName,passengerPhone,passengerAddr,passengerNic)"+
-                "values ('" + passengerName + "','" + passengerPhone +"','" + passengerAddr +"','" + passengerNic +"')");
+        String in = ("insert into passenger(passengerfirstName,passengerlastName,passengerPhone,passengerAddr,passengerNic)"+
+                "values ('" + passengerfirstName + "','" + passengerlastName + "','" + passengerPhone +"','" + passengerAddr +"','" + passengerNic +"')");
         psPsngr = con.prepareStatement(in);
         psPsngr.executeUpdate();
     }
@@ -234,9 +239,11 @@ class passenger {
 
         while (rsPsngr.next()) {
             System.out.println("id " + rsPsngr.getInt(1));
-            System.out.println("passengerName " + rsPsngr.getString(2));
-            System.out.println("passengerPhone " + rsPsngr.getInt(3));
-            System.out.println("passengerAddr " + rsPsngr.getString(4));
+            System.out.println("passengerfirstName " + rsPsngr.getString(2));
+            System.out.println("passengerlastName " + rsPsngr.getString(3));
+            System.out.println("passengerPhone " + rsPsngr.getString(4));
+            System.out.println("passengerAddr " + rsPsngr.getString(5));
+            System.out.println("passengerNic " + rsPsngr.getString(6));
 
         };
 
@@ -425,24 +432,28 @@ public class Main {
             //Press 3 for Adding Passenger
             else if (selectioninput == 3) {
                 int passengerId=0;
-                String passengerName;
-                int passengerPhone;
+                String passengerfirstName;
+                String passengerlastName;
+                String passengerPhone;
                 String passengerAddr;
-                int passengerNic;
+                String passengerNic;
 
-                System.out.println("Enter Passenger Name");
-                passengerName = ip.next();
+                System.out.println("Enter Passenger firstName");
+                passengerfirstName = ip.next();
+
+                System.out.println("Enter Passenger lastName");
+                passengerlastName = ip.next();
 
                 System.out.println("Enter Passenger Nic");
-                passengerNic = ip.nextInt();
+                passengerNic = ip.next();
 
                 System.out.println("Enter Passenger Phone");
-                passengerPhone = ip.nextInt();
+                passengerPhone = ip.next();
 
                 System.out.println("Enter Passenger Address");
                 passengerAddr = ip.next();
 
-                passenger oPsngr = new passenger(passengerId,passengerName, passengerPhone, passengerAddr, passengerNic);
+                passenger oPsngr = new passenger(passengerId,passengerfirstName,passengerlastName, passengerPhone, passengerAddr, passengerNic);
                 oPsngr.addPassenger(psPsngr, con);
             }
 
