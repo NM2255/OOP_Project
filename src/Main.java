@@ -324,6 +324,33 @@ class reservation {
         //search reservation details from database
 
     }
+
+    public void output(PreparedStatement psRes, Connection con,ResultSet rsRes) throws Exception {
+        /*read user data from database */
+
+        String sql = "select * from reservation";
+        psRes = con.prepareStatement(sql);
+        rsRes = psRes.executeQuery();
+
+        while (rsRes.next()) {
+            System.out.println("id " + rsRes.getInt(1));
+            System.out.println("destination " + rsRes.getString(2));
+            System.out.println("departure " + rsRes.getString(3));
+            System.out.println("departureDate " + rsRes.getString(4));
+            System.out.println("returnDate " + rsRes.getString(5));
+            System.out.println("passengerfisrtName " + rsRes.getString(6));
+            System.out.println("passengerlastName " + rsRes.getString(7));
+            System.out.println("passengerNic " + rsRes.getString(8));
+            System.out.println("passengerPhone " + rsRes.getString(9));
+            System.out.println("passengerAddr " + rsRes.getString(10));
+            System.out.println("busName " + rsRes.getString(11));
+            System.out.println("busNumber " + rsRes.getString(12));
+
+
+        };
+
+
+    }
 }
 
 
@@ -394,7 +421,7 @@ public class Main {
                     "\nPress 3 for Adding Passenger \nPress 4 to Show Passengers" +
                     "\nPress 5 to add Reservation \nPress 6 to search bus" +
                     "\nPress 7 to delete pesenger \n Press 8 to delete Reservation " +
-                    "\n Press 9 to edit pesenger \nPress 10 to login \nPress 0 to Exit");
+                    "\n Press 9 to edit pesenger \nPress 10 to login \nPress 11 to show reservation \nPress 0 to Exit");
             int selectioninput = ip.nextInt();
 
             //Press 1 for Adding bus
