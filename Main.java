@@ -1,6 +1,8 @@
 //package com.shahiqinc;
 // Ignore all this
 
+import com.shahiqinc.userMenu;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -189,12 +191,12 @@ class WelcomeScreen extends JFrame {
                     JOptionPane.showMessageDialog(null, "Login Successfull");
                     user_name.setText("");
                     password.setText("");
-
-//                    new WelcomeScreen();
                     
                     //=================================================\\
                    //====>> shahiq broO your working start from there....
                   //=====================================================\\
+                    this.dispose();
+                    new userMenu();
                     
                 }else{
                     JOptionPane.showMessageDialog(null, "Login Failed please try again");
@@ -203,9 +205,6 @@ class WelcomeScreen extends JFrame {
             catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e);
             }
-            
-
-//            new userMenu();
         }
     }
 } // End of the WelcomeScreen Class.
