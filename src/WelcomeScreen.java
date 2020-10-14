@@ -116,7 +116,11 @@ public class WelcomeScreen extends JFrame {
 //        Creating a method for when the button is pressed.
         b1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                registerButtonPressed();
+                try {
+                    registerButtonPressed();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
             }
         });
 
@@ -125,7 +129,7 @@ public class WelcomeScreen extends JFrame {
     } // Constructor body ends here.
 
     //    Function declaration for the button press.
-    public void registerButtonPressed(){
+    public void registerButtonPressed() throws SQLException {
 
 
         if(user_name.getText().trim().equals("")){
@@ -150,13 +154,23 @@ public class WelcomeScreen extends JFrame {
             uname = variableCredentials.uname;
             pwd = String.valueOf(variableCredentials.pword);
 
+            WelcomeScreen ws = new WelcomeScreen();
+
+            Connection con = null;
+            PreparedStatement psAdmin = null;
+            ResultSet rsAdmin = null;
+            con = DriverManager.getConnection("jdbc:ucanaccess://oopdatabase.accdb");
+
+            admin oAdmin = new admin(uname,pwd);
+            oAdmin.searchAdmin(psAdmin,con,rsAdmin,uname,pwd,ws);
+
 /*       Ahsan your task starts from here. This method will be called after button is pressed.Data is already saved in
 *        two variables
          defined above, look for the "Saving user name and password into two local variables." comment
 *        and you will find them.
 * */
             // Define Database connection
-            Connection con = null;
+            /*Connection con = null;
             PreparedStatement pst = null;
             ResultSet rs = null;
 
@@ -191,7 +205,7 @@ public class WelcomeScreen extends JFrame {
             }
             catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e);
-            }
+            }*/
 
 
 //            new userMenu();

@@ -1,5 +1,6 @@
 
 
+import javax.swing.*;
 import java.io.*;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -10,25 +11,27 @@ import java.util.Scanner;
 import java.text.*;
 
 // Admin/Login class
-class admin{
+class admin {
     public int adminId;
     public String adminUsername;
     public String adminPassword;
 
 
     //constructor for admin class
-    public admin(String adminUsername, String adminPassword){
+    public admin(String adminUsername, String adminPassword) {
         this.adminId = adminId;
         this.adminUsername = adminUsername;
         this.adminPassword = adminPassword;
     }
+
     //Method for add admins to database
-    public void addAdmin(){
+    public void addAdmin() {
 
     }
+
     //Method for searching admins from database
-    public boolean searchAdmin(PreparedStatement psAdmin, Connection con, ResultSet rsAdmin,String uname, String pwd) throws SQLException {
-        boolean aa;
+    public boolean searchAdmin(PreparedStatement psAdmin, Connection con, ResultSet rsAdmin, String uname, String pwd, WelcomeScreen ws) throws SQLException {
+        boolean aa = false;
 
         // login method search username & password
         psAdmin = con.prepareStatement("select * from admin where adminUsername = ? and adminPassword = ?");
@@ -39,22 +42,37 @@ class admin{
         rsAdmin = psAdmin.executeQuery();
 
         // if rs.next() =  true So condition run other wise run else
-        if (rsAdmin.next()) {
-            System.out.println("login successful");
-            aa =true;
+        try {
+            if (rsAdmin.next()) {
+                JOptionPane.showMessageDialog(null, "Login Successfull");
+                ws.user_name.setText("");
+                ws.password.setText("");
+
+                aa=true;
+
+//                    new WelcomeScreen();
+
+                //=================================================\\
+                //====>> shahiq broO your working start from there....
+                //=====================================================\\
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Login Failed please try again");
+                aa = false;
+            }
         }
 
-        else{
-            System.out.println("Try again or answer a rocket science question");
-            aa =false;
+        catch(Exception e)
+
+        {
+            JOptionPane.showMessageDialog(null, e);
         }
         return aa;
+
     }
 
-    //search admin
-    public void searchAdmin(Connection con,PreparedStatement psAdmin)throws Exception{
-    
-    }
+
+
 
 
 }
