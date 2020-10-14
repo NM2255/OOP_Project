@@ -305,33 +305,7 @@ class reservation {
 }
 
 
-//class for schedule
-class Schedule{
 
-    public int scheduleId;
-    public String towhere;
-    public String from;
-
-    public void searchSchedule()throws Exception{
-        //search reservation details from database
-
-    }
-    public void editSchedule()throws Exception{
-        //search reservation details from database
-
-    }
-    public void dleteScedule()throws Exception{
-        //search reservation details from database
-
-    }
-    public void addScedule()throws Exception{
-        //search reservation details from database
-
-    }
-
-
-
-}
 
 public class Main {
 
