@@ -27,11 +27,11 @@ class admin{
 
     }
     //Method for searching admins from database
-    public void searchAdmin(PreparedStatement psAdmin, Connection con, ResultSet rsAdmin,String uname, String pwd) throws SQLException {
-
+    public boolean searchAdmin(PreparedStatement psAdmin, Connection con, ResultSet rsAdmin,String uname, String pwd) throws SQLException {
+        boolean aa;
 
         // login method search username & password
-        psAdmin = con.prepareStatement("select * from admin where username = ? and password = ?");
+        psAdmin = con.prepareStatement("select * from admin where adminUsername = ? and adminPassword = ?");
 
         // compare both values of username and uname or password & pwd
         psAdmin.setString(1, uname);
@@ -41,7 +41,19 @@ class admin{
         // if rs.next() =  true So condition run other wise run else
         if (rsAdmin.next()) {
             System.out.println("login successful");
+            aa =true;
         }
+
+        else{
+            System.out.println("Try again or answer a rocket science question");
+            aa =false;
+        }
+        return aa;
+    }
+
+    //search admin
+    public void searchAdmin(Connection con,PreparedStatement psAdmin)throws Exception{
+    
     }
 
 
@@ -54,6 +66,7 @@ class bus {
     public String busNumber;
     public String busRoute;
     public String busTiming;
+
 
 
     //constructor for bus class
@@ -70,8 +83,8 @@ class bus {
     }
     //method for adding bus
     public void addBus(PreparedStatement psBus,Connection con) throws Exception{
-        String in = ("insert into bus(busName,busNumber)"+
-                "values ('" + busName + "','" + busNumber +"')");
+        String in = ("insert into bus(busName,busNumber,busTiming,busRoute)"+
+                "values ('" + busName + "','" + busNumber +"','" +busTiming +"','" +busRoute +"')");
         psBus = con.prepareStatement(in);
         psBus.executeUpdate();
     }
@@ -102,6 +115,7 @@ class bus {
 
     public void searchBus(){
 
+
     }
 
     public void showSchedule(PreparedStatement psBus, Connection con,ResultSet rsBus) throws Exception {
@@ -115,6 +129,7 @@ class bus {
             System.out.println("id " + rsBus.getInt(1));
             System.out.println("busName " + rsBus.getString(2));
             System.out.println("busNumber " + rsBus.getString(3));
+            System.out.println("busTiming "+rsBus.getString(4));
 
         };
 
@@ -270,8 +285,8 @@ class reservation {
     public void addReservation(PreparedStatement psRes, Connection con,passenger oPsngr, bus oBus) throws SQLException {
 
         //adds reservation details to database
-        String in = ("insert into reservation(departure,destination,departureDate,returnDate,busName,busNumber,passengerName,passengerPhone,passengerAddr)" +
-                "values ('" + departure + "','" + destination + "','" + departureDate + "','" + returnDate + "','" + passengerName + "','" + passengerPhone + "','" + passengerAddr + "','" + passengerNic + "','" + busName + "','" + busNumber + "')");
+        String in = ("insert into reservation(departure,destination,departureDate,returnDate,passengerName,passengerNic,passengerPhone,passengerAddr,busName,busNumber)" +
+                "values ('" + departure + "','" + destination + "','" + departureDate + "','" + returnDate + "','" + passengerName + "','" + passengerNic + "','" + passengerPhone + "','" + passengerAddr + "','" + busName + "','" + busNumber + "')");
         psRes = con.prepareStatement(in);
         psRes.executeUpdate();
     }
@@ -349,10 +364,23 @@ public class Main {
 
         boolean exit = oAdmin.searchAdmin();*/
 
+        String adminUsername;
+        String adminPassword;
+
+        System.out.println("Enter username");
+        adminUsername = ip.next();
+
+        System.out.println("Enter Password");
+        adminPassword= ip.next();
+
+        admin oAdmin = new admin(adminUsername, adminPassword);
+
+
+
         boolean exit = false;
         
         //loop for inputs for adding buses and customers
-        while (exit == false) {
+        while (oAdmin.searchAdmin(psAdmin,con,rsAdmin,adminUsername,adminPassword)) {
 
             System.out.println("**************************************************************************" +
                     "\nPress 1 for Adding bus \nPress 2 to Show bus Schedule " +
@@ -513,23 +541,11 @@ public class Main {
 
             }
 
-            else if(selectioninput == 10){
-                String adminUsername;
-                String adminPassword;
 
-                System.out.println("Enter username");
-                adminUsername = ip.next();
-
-                System.out.println("Enter Password");
-                adminPassword= ip.next();
-
-                admin oAdmin = new admin(adminUsername, adminPassword);
-
-                oAdmin.searchAdmin(psAdmin,con,rsAdmin,adminUsername,adminPassword);
-            }
 
             else if (selectioninput == 0) {
-                exit = true;
+                break;
+
             }
 
 
