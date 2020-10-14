@@ -27,11 +27,11 @@ class admin{
 
     }
     //Method for searching admins from database
-    public void searchAdmin(PreparedStatement psAdmin, Connection con, ResultSet rsAdmin,String uname, String pwd) throws SQLException {
-
+    public boolean searchAdmin(PreparedStatement psAdmin, Connection con, ResultSet rsAdmin,String uname, String pwd) throws SQLException {
+        boolean aa;
 
         // login method search username & password
-        psAdmin = con.prepareStatement("select * from admin where username = ? and password = ?");
+        psAdmin = con.prepareStatement("select * from admin where adminUsername = ? and adminPassword = ?");
 
         // compare both values of username and uname or password & pwd
         psAdmin.setString(1, uname);
@@ -41,7 +41,14 @@ class admin{
         // if rs.next() =  true So condition run other wise run else
         if (rsAdmin.next()) {
             System.out.println("login successful");
+            aa =true;
         }
+
+        else{
+            System.out.println("Try again or answer a rocket science question");
+            aa =false;
+        }
+        return aa;
     }
 
     //search admin
@@ -383,10 +390,23 @@ public class Main {
 
         boolean exit = oAdmin.searchAdmin();*/
 
+        String adminUsername;
+        String adminPassword;
+
+        System.out.println("Enter username");
+        adminUsername = ip.next();
+
+        System.out.println("Enter Password");
+        adminPassword= ip.next();
+
+        admin oAdmin = new admin(adminUsername, adminPassword);
+
+
+
         boolean exit = false;
         
         //loop for inputs for adding buses and customers
-        while (exit == false) {
+        while (oAdmin.searchAdmin(psAdmin,con,rsAdmin,adminUsername,adminPassword)) {
 
             System.out.println("**************************************************************************" +
                     "\nPress 1 for Adding bus \nPress 2 to Show bus Schedule " +
@@ -547,23 +567,11 @@ public class Main {
 
             }
 
-            else if(selectioninput == 10){
-                String adminUsername;
-                String adminPassword;
 
-                System.out.println("Enter username");
-                adminUsername = ip.next();
-
-                System.out.println("Enter Password");
-                adminPassword= ip.next();
-
-                admin oAdmin = new admin(adminUsername, adminPassword);
-
-                oAdmin.searchAdmin(psAdmin,con,rsAdmin,adminUsername,adminPassword);
-            }
 
             else if (selectioninput == 0) {
-                exit = true;
+                break;
+
             }
 
 
