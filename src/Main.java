@@ -388,27 +388,8 @@ public class Main {
         //scanner for input
         Scanner ip = new Scanner(System.in);
 
-        //inputs for logins
-        /*int adminId;
-        String adminUsername;
-        String adminPassword;
 
-        System.out.println("Enter Id");
-        adminId = ip.nextInt();
-
-        System.out.println("Enter username");
-        adminUsername = ip.next();
-
-        System.out.println("Enter Pass");
-        adminPassword = ip.next();
-
-        admin oAdmin = new admin(adminId, adminUsername,adminPassword);
-
-        oAdmin.addAdmin(oAdmin);
-
-        boolean exit = oAdmin.searchAdmin();*/
-
-        String adminUsername;
+        /*String adminUsername;
         String adminPassword;
 
         System.out.println("Enter username");
@@ -496,11 +477,7 @@ public class Main {
 
             //Press 4 to Show Passengers
             else if (selectioninput == 4){
-                /*int passengerId=0;
-                String passengerName = null;
-                int passengerPhone = 0;
-                String passengerAddr = null;
-                int passengerNic = */
+
 
                 passenger oPsngr = new passenger();
 
@@ -572,10 +549,6 @@ public class Main {
 
             //Press 8 to deletepesengerReservation
             else if(selectioninput==8){
-                /*String destination=null;
-                String departureDate=null;
-                String returnDate=null;
-                String departure=null;*/
 
                 reservation res = new reservation();
                 res.deleteReservation(psRes,con);
@@ -603,7 +576,9 @@ public class Main {
             }
 
 
-        }
+        }*/
+
+        new WelcomeScreen();
     }
 }
 
