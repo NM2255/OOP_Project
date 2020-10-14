@@ -97,7 +97,15 @@ class bus {
         return busNumber;
     }
 
-    public void deleteBus(PreparedStatement psBus,Connection con,ResultSet rsBus) throws Exception {
+    public String getBusRoute() {
+        return busRoute;
+    }
+
+    public String getBusTiming() {
+        return busTiming;
+    }
+
+    public void deleteBus(PreparedStatement psBus, Connection con, ResultSet rsBus) throws Exception {
         //deletes Bus from database
         Scanner dl = new Scanner(System.in);
         System.out.println("enter id of pasenger");
@@ -130,6 +138,7 @@ class bus {
             System.out.println("busName " + rsBus.getString(2));
             System.out.println("busNumber " + rsBus.getString(3));
             System.out.println("busTiming "+rsBus.getString(4));
+            System.out.println("busRoute "+rsBus.getString(5));
 
         };
 
