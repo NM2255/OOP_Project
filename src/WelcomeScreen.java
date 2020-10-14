@@ -159,7 +159,7 @@ public class WelcomeScreen extends JFrame {
             Connection con = null;
             PreparedStatement psAdmin = null;
             ResultSet rsAdmin = null;
-            con = DriverManager.getConnection("jdbc:ucanaccess://oopdatabase.accdb");
+            con = DriverManager.getConnection("jdbc:ucanaccess://e://oopdatabase.accdb");
 
             admin oAdmin = new admin(uname,pwd);
             oAdmin.searchAdmin(psAdmin,con,rsAdmin,uname,pwd,ws);
@@ -198,6 +198,7 @@ public class WelcomeScreen extends JFrame {
                     //=================================================\\
                     //====>> shahiq broO your working start from there....
                     //=====================================================\\
+
 
                 }else{
                     JOptionPane.showMessageDialog(null, "Login Failed please try again");
