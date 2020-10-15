@@ -1,4 +1,4 @@
-package com.shahiqinc;
+//package com.shahiqinc;
 
 public class variableCredentials {
     public static String uname;

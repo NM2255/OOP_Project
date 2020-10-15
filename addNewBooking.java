@@ -1,4 +1,4 @@
-package com.shahiqinc;
+//package com.shahiqinc;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -6,6 +6,10 @@ import net.miginfocom.swing.MigLayout;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class addNewBooking {
     static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -167,10 +171,60 @@ public class addNewBooking {
         return splitPane;
     }
     public static void addNewBookingConfirmed(){
-        /**
-         * Bajwe idhar se tera kaam shuru hota hai. Textfield ki value lene k liye e.g. departure ki value chahiye toh
-         * phir likhna departure.getText();. Baqi ek jar file hogi git p usse external jar file add karde jese uCanAccess
-         * kari thi.
-        **/
+        
+        // Define Database connection
+           Connection con = null;
+           PreparedStatement pst = null;
+           ResultSet rs = null;
+           
+            try {
+                // define file path
+                Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+                con = DriverManager.getConnection("jdbc:ucanaccess://oopdatabase.accdb");
+                
+                // input method insert in database
+                pst = con.prepareStatement("insert into booking(firstName, lastName, nic, phone, address, source, destination, departureDate, returnDate, busName,busNo) values (?,?,?,?,?,?,?,?,?,?,?)");
+                
+                // Set values of inputs
+                pst.setString(1, passengerName.getText());
+                pst.setString(2, passengerNameLast.getText());
+                pst.setString(3, passengerNic.getText());
+                pst.setString(4, passengerPhone.getText());
+                pst.setString(5, passengerAddr.getText());
+                pst.setString(6, departure.getText());
+                pst.setString(7, destination.getText());
+                pst.setString(8, departureDate.getText());
+                pst.setString(9, returnDate.getText());
+                pst.setString(10, busName.getText());
+                pst.setString(11, busNumber.getText());
+                pst.executeUpdate();
+                
+                // if successfull booked and successfully stored data in data base then show message dilog box "booking successfully"
+                JOptionPane.showMessageDialog(null, "booking Successfully");
+                
+                // after booking and add the inputs in database then user input text is empty
+                passengerName.setText("");
+                passengerNameLast.setText("");
+                passengerNic.setText("");
+                passengerPhone.setText("");
+                passengerAddr.setText("");
+                departure.setText("");
+                destination.setText("");
+                departureDate.setText("");
+                returnDate.setText("");
+                busName.setText("");  
+                busNumber.setText("");
+                 
+                     //===========>> booking conformed <<=============\\
+                    //=================================================\\
+                   //====>> shahiq broO your working start from there....
+                  //=====================================================\\
+                    
+            } 
+            catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "booking Failed please try again");
+                JOptionPane.showMessageDialog(null, e);
+            }
+            
     }
 }
