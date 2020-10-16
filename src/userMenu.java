@@ -32,33 +32,33 @@ public class userMenu {
 
         f1.add(controls);
 
-        j1.setFont (j1.getFont ().deriveFont (50.0f));
-        j1.setBorder(new EmptyBorder(50,0,0,0));
+        j1.setFont (j1.getFont ().deriveFont (40.0f));
+        //j1.setBorder(new EmptyBorder(0,0,0,0));
         j1.setVerticalAlignment(JLabel.CENTER);
         controls.add(j1);
 
         empty.setPreferredSize(new Dimension((int)width,0));
         controls.add(empty);
 
-        b1.setPreferredSize(new Dimension((int)width/8,44));
+        b1.setPreferredSize(new Dimension((int)width/5,44));
         b1.setBackground(Color.WHITE);
         b1.setFont (b1.getFont ().deriveFont (15.0f));
         b1.setBorder(new RoundedBorder(40));
         controls.add(b1);
 
-        b2.setPreferredSize(new Dimension((int)width/8,44));
+        b2.setPreferredSize(new Dimension((int)width/5,44));
         b2.setBackground(Color.WHITE);
         b2.setFont (b2.getFont ().deriveFont (15.0f));
         b2.setBorder(new RoundedBorder(40));
         controls.add(b2);
 
-        b3.setPreferredSize(new Dimension((int)width/8,44));
+        b3.setPreferredSize(new Dimension((int)width/5,44));
         b3.setBackground(Color.WHITE);
         b3.setFont (b3.getFont ().deriveFont (15.0f));
         b3.setBorder(new RoundedBorder(40));
         controls.add(b3);
 
-        b4.setPreferredSize(new Dimension((int)width/8,44));
+        b4.setPreferredSize(new Dimension((int)width/5,44));
         b4.setBackground(Color.WHITE);
         b4.setFont (b4.getFont ().deriveFont (15.0f));
         b4.setBorder(new RoundedBorder(40));
@@ -71,27 +71,31 @@ public class userMenu {
 
         splitPane.setSize((int)width, (int)height);
         splitPane.setDividerSize(0);
-        splitPane.setDividerLocation((int)height/5);
+        splitPane.setDividerLocation((int)height/6);
         splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
         splitPane.setTopComponent(controls);
         splitPane.setBottomComponent(logo);
         f1.add(splitPane);
 
         b1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                addNewBookingButtonPressed();
+            public void actionPerformed(ActionEvent e)  {
+                try {
+                    addNewBookingButtonPressed();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 
         f1.validate();
     }
-    public void addNewBookingButtonPressed(){
+    public void addNewBookingButtonPressed() throws Exception{
         f1.remove(logo);
         f1.add(addNewBooking.addNewBookingScreen());
         f1.add(controls);
         splitPane.setTopComponent(controls);
         splitPane.setBottomComponent(addNewBooking.addNewBookingScreen());
-        splitPane.setDividerLocation((int)height/5);
+        splitPane.setDividerLocation((int)height/6);
         f1.validate();
     }
 }
