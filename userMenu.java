@@ -1,4 +1,4 @@
-//package com.shahiqinc;
+package com.shahiqinc;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -25,8 +25,6 @@ public class userMenu {
         JButton b1 = new JButton("Add new booking");
         JButton b2 = new JButton("Add new schedule");
         JButton b3 = new JButton("View all bookings");
-        JButton b4 = new JButton("View schedule");
-
 
         controls.setSize((int)width, (int)height);
         controls.setBackground(Color.WHITE);
@@ -60,12 +58,6 @@ public class userMenu {
         b3.setBorder(new RoundedBorder(40));
         controls.add(b3);
 
-        b4.setPreferredSize(new Dimension((int)width/8,44));
-        b4.setBackground(Color.WHITE);
-        b4.setFont (b4.getFont ().deriveFont (15.0f));
-        b4.setBorder(new RoundedBorder(40));
-        controls.add(b4);
-
         logo.setSize((int)width, (int)height);
         logo.setBackground(Color.PINK);
         logo.setVisible(true);
@@ -85,6 +77,12 @@ public class userMenu {
             }
         });
 
+        b2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                addNewScheduleButtonPressed();
+            }
+        });
+
         f1.validate();
     }
     public void addNewBookingButtonPressed(){
@@ -93,6 +91,15 @@ public class userMenu {
         f1.add(controls);
         splitPane.setTopComponent(controls);
         splitPane.setBottomComponent(addNewBooking.addNewBookingScreen());
+        splitPane.setDividerLocation((int)height/5);
+        f1.validate();
+    }
+    public void addNewScheduleButtonPressed(){
+        f1.remove(logo);
+        f1.add(addNewSchedule.addNewSchedule());
+        f1.add(controls);
+        splitPane.setTopComponent(controls);
+        splitPane.setBottomComponent(addNewSchedule.addNewSchedule());
         splitPane.setDividerLocation((int)height/5);
         f1.validate();
     }
