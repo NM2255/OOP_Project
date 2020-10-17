@@ -146,8 +146,9 @@ public class addNewBooking {
         schedulePanel.setBackground(Color.WHITE);
         schedulePanel.setVisible(true);
 
-        updateBusTable ubt = new updateBusTable();
-        JScrollPane sp = new JScrollPane(ubt.getBusSchedule());
+        bus BUS = new bus();
+        JTable schedule = BUS.showSchedule(DriverManager.getConnection("jdbc:ucanaccess://e://oopdatabase.accdb"));
+        JScrollPane sp = new JScrollPane(schedule);
         schedulePanel.add(sp,"growx,pushx,wrap");
 
         JSplitPane splitPane = new JSplitPane();

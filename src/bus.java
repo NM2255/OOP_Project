@@ -1,3 +1,6 @@
+import javax.swing.*;
+import javax.swing.table.TableColumnModel;
+import java.awt.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -50,31 +53,28 @@ class bus {
         psBus.executeUpdate();
     }
 
-    public void editBus(){
+    public void editBus(){}
 
+    public void searchBus(){}
 
-    }
-
-    public void searchBus(){
-
-
-    }
-
-    public void showSchedule(PreparedStatement psBus, Connection con,ResultSet rsBus) throws Exception {
+    public JTable showSchedule(Connection con) throws Exception {
         /*read user data from database */
 
+        PreparedStatement psBus = null;
+        ResultSet rsBus = null;
         String sql = "select * from bus";
         psBus = con.prepareStatement(sql);
         rsBus = psBus.executeQuery();
 
-        while (rsBus.next()) {
-            System.out.println("id " + rsBus.getInt(1));
-            System.out.println("busName " + rsBus.getString(2));
-            System.out.println("busNumber " + rsBus.getString(3));
-            System.out.println("busTiming "+rsBus.getString(4));
-            System.out.println("busRoute "+rsBus.getString(5));
+        JTable table = new JTable(buildTableModel.BuildTableModel(rsBus));
 
-        }
+        table.setFillsViewportHeight(true);
+        table.setFont(table.getFont().deriveFont(20.0f));
+        table.setRowHeight(60);
+        TableColumnModel columnModel = table.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(10);
+        table.getTableHeader().setFont(new Font("SansSerif", Font.ITALIC, 20));
 
+        return table;
     }
 }

@@ -16,7 +16,7 @@ public class addNewSchedule {
     static JTextField busRoute = new JTextField(20);
     static JTextField busTiming = new JTextField(20);
 
-    public static JSplitPane addNewSchedule() throws SQLException {
+    public static JSplitPane addNewSchedule() throws Exception {
         JPanel options = new JPanel();
         options.setBackground(Color.WHITE);
         options.setVisible(true);
@@ -66,6 +66,10 @@ public class addNewSchedule {
         addBooking.setBorder(new RoundedBorder(55));
         options.add(addBooking,"width "+(int)width/8+"!, height 50!");
 
+        bus BUS = new bus();
+        JTable schedule = BUS.showSchedule(DriverManager.getConnection("jdbc:ucanaccess://e://oopdatabase.accdb"));
+        JScrollPane sp = new JScrollPane(schedule);
+
         addBooking.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -81,9 +85,6 @@ public class addNewSchedule {
         schedulePanel.setBackground(Color.WHITE);
         schedulePanel.setVisible(true);
 
-        updateBusTable ubt = new updateBusTable();
-        JTable schedule = ubt.getBusSchedule();
-        JScrollPane sp = new JScrollPane(schedule);
         schedulePanel.add(sp,"growx,pushx,wrap");
 
         delete.setFont(delete.getFont().deriveFont(15.0f));
@@ -128,20 +129,19 @@ public class addNewSchedule {
         return splitPane;
     }
     public static void addNewScheduleConfirmed() throws Exception {
-
         if(busName.getText().equals("") || busNumber.getText().equals("") || busRoute.getText().equals("") || busTiming.getText().equals("")){
             JOptionPane.showMessageDialog(userMenu.getf1(), "Please fill all fields!");
         }
         else{
-            updateBusTable schedule = new updateBusTable();
             bus bs = new bus(busName.getText(),busNumber.getText(),busRoute.getText(),busTiming.getText());
+            busName.setText("");
+            busNumber.setText("");
+            busRoute.setText("");
+            busTiming.setText("");
             PreparedStatement ps = null;
-            Connection con;
+            Connection con = null;
             con = DriverManager.getConnection("jdbc:ucanaccess://e://oopdatabase.accdb");
             bs.addBus(ps,con);
-            String data[] = {busName.getText(),busNumber.getText(),busRoute.getText(),busTiming.getText()};
-            DefaultTableModel tblmodel = (DefaultTableModel)schedule.getBusSchedule().getModel();
-            tblmodel.addRow(data);
         }
     }
 }

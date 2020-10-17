@@ -1,3 +1,6 @@
+import javax.swing.*;
+import javax.swing.table.TableColumnModel;
+import java.awt.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -78,29 +81,24 @@ class reservation {
 
     }
 
-    public void output(PreparedStatement psRes, Connection con, ResultSet rsRes) throws Exception {
+    public JTable showReservation(Connection con) throws Exception {
         /*read user data from database */
 
+        PreparedStatement psRes = null;
+        ResultSet rsRes;
         String sql = "select * from reservation";
         psRes = con.prepareStatement(sql);
         rsRes = psRes.executeQuery();
 
-        while (rsRes.next()) {
-            System.out.println("id " + rsRes.getInt(1));
-            System.out.println("destination " + rsRes.getString(2));
-            System.out.println("departure " + rsRes.getString(3));
-            System.out.println("departureDate " + rsRes.getString(4));
-            System.out.println("returnDate " + rsRes.getString(5));
-            System.out.println("passengerfisrtName " + rsRes.getString(6));
-            System.out.println("passengerlastName " + rsRes.getString(7));
-            System.out.println("passengerNic " + rsRes.getString(8));
-            System.out.println("passengerPhone " + rsRes.getString(9));
-            System.out.println("passengerAddr " + rsRes.getString(10));
-            System.out.println("busName " + rsRes.getString(11));
-            System.out.println("busNumber " + rsRes.getString(12));
+        JTable table = new JTable(buildTableModel.BuildTableModel(rsRes));
 
-        };
+        table.setFillsViewportHeight(true);
+        table.setFont(table.getFont().deriveFont(20.0f));
+        table.setRowHeight(60);
+        TableColumnModel columnModel = table.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(10);
+        table.getTableHeader().setFont(new Font("SansSerif", Font.ITALIC, 20));
 
-
+        return table;
     }
 }
