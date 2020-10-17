@@ -5,6 +5,7 @@ import net.miginfocom.swing.MigLayout;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
 
 public class addNewSchedule {
     static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -15,17 +16,7 @@ public class addNewSchedule {
     static JTextField busRoute = new JTextField(20);
     static JTextField busTiming = new JTextField(20);
 
-    static String[][] data = {
-            { "1", "Gujjar Coach", "4031", "Karachi to Mumbai", "10 A.M." },
-            { "2", "Rangar Coach", "4021", "Lahore to Dubai", "10 P.M." }
-    };
-    static String[] columnNames = { "ID", "Name", "Bus Number", "Route", "Timings" };
-
-    static DefaultTableModel model = new DefaultTableModel(data,columnNames);
-
-    static JTable schedule = new JTable(model);
-
-    public static JSplitPane addNewSchedule() {
+    public static JSplitPane addNewSchedule() throws SQLException {
         JPanel options = new JPanel();
         options.setBackground(Color.WHITE);
         options.setVisible(true);
@@ -77,7 +68,11 @@ public class addNewSchedule {
 
         addBooking.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                addNewScheduleConfirmed();
+                try {
+                    addNewScheduleConfirmed();
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
             }
         });
 
@@ -86,9 +81,8 @@ public class addNewSchedule {
         schedulePanel.setBackground(Color.WHITE);
         schedulePanel.setVisible(true);
 
-        schedule.setFont(schedule.getFont().deriveFont(20.0f));
-        schedule.setRowHeight(30);
-        schedule.getTableHeader().setFont(new Font("SansSerif", Font.ITALIC, 20));
+        updateBusTable ubt = new updateBusTable();
+        JTable schedule = ubt.getBusSchedule();
         JScrollPane sp = new JScrollPane(schedule);
         schedulePanel.add(sp,"growx,pushx,wrap");
 
@@ -99,7 +93,28 @@ public class addNewSchedule {
 
         delete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                deleteSchedule();
+                DefaultTableModel tblmodel = (DefaultTableModel)schedule.getModel();
+                if(schedule.getSelectedRowCount()==1){
+                    PreparedStatement ps = null;
+                    Connection con = null;
+                    ResultSet rs = null;
+                    int row = schedule.getSelectedRow();
+                    String cell = schedule.getModel().getValueAt(row,0).toString();
+                    try {
+                        con = DriverManager.getConnection("jdbc:ucanaccess://e://oopdatabase.accdb");
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                    try {
+                        new bus().deleteBus(ps,con,rs,cell);
+                    } catch (Exception exception) {
+                        exception.printStackTrace();
+                    }
+                    tblmodel.removeRow(schedule.getSelectedRow());
+                }
+                else{
+                    JOptionPane.showMessageDialog(userMenu.getf1(), "Please select only one row!");
+                }
             }
         });
 
@@ -112,32 +127,21 @@ public class addNewSchedule {
 
         return splitPane;
     }
-    public static void addNewScheduleConfirmed(){
-        /**
-         * Bajwe idhar se tera kaam shuru hota hai. Textfield ki value lene k liye e.g. busName ki value chahiye toh
-         * phir likhna busName.getText();. Baqi ek jar file hogi git p usse external jar file add karde jese uCanAccess
-         * kari thi.
-         **/
+    public static void addNewScheduleConfirmed() throws Exception {
+
         if(busName.getText().equals("") || busNumber.getText().equals("") || busRoute.getText().equals("") || busTiming.getText().equals("")){
             JOptionPane.showMessageDialog(userMenu.getf1(), "Please fill all fields!");
         }
         else{
+            updateBusTable schedule = new updateBusTable();
+            bus bs = new bus(busName.getText(),busNumber.getText(),busRoute.getText(),busTiming.getText());
+            PreparedStatement ps = null;
+            Connection con;
+            con = DriverManager.getConnection("jdbc:ucanaccess://e://oopdatabase.accdb");
+            bs.addBus(ps,con);
             String data[] = {busName.getText(),busNumber.getText(),busRoute.getText(),busTiming.getText()};
-            DefaultTableModel tblmodel = (DefaultTableModel)schedule.getModel();
+            DefaultTableModel tblmodel = (DefaultTableModel)schedule.getBusSchedule().getModel();
             tblmodel.addRow(data);
-        }
-    }
-    public static void deleteSchedule(){
-        DefaultTableModel tblmodel = (DefaultTableModel)schedule.getModel();
-        if(schedule.getSelectedRowCount()==1){
-            int row = schedule.getSelectedRow();
-            String cell = schedule.getModel().getValueAt(row,0).toString();
-            String sql = "DELETE FROM bus WHERE id = "+cell;
-            System.out.println(sql);
-            tblmodel.removeRow(schedule.getSelectedRow());
-        }
-        else{
-            JOptionPane.showMessageDialog(userMenu.getf1(), "Please select only one row!");
         }
     }
 }

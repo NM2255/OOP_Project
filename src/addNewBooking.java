@@ -1,16 +1,11 @@
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
 
 import net.miginfocom.swing.MigLayout;
-import org.hsqldb.jdbc.JDBCUtil;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
-import net.proteanit.sql.DbUtils;
-
 
 public class addNewBooking {
     static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -32,43 +27,6 @@ public class addNewBooking {
         JPanel options = new JPanel();
         options.setBackground(Color.WHITE);
         options.setVisible(true);
-
-        String[][] data = {};
-        String[] columnNames = { "ID","Name", "Bus Number", "Route", "Timings" };
-
-       // JTable schedule = new JTable(data, columnNames);
-        DefaultTableModel model = new DefaultTableModel(data,columnNames);
-        JTable schedule = new JTable(model);
-
-        //connection
-
-        Connection con=null;
-        PreparedStatement psBus=null;
-        ResultSet rsBus=null;
-        con = DriverManager.getConnection("jdbc:ucanaccess://e://oopdatabase.accdb");
-        String in = "select * from bus";
-
-        try {
-            psBus = con.prepareStatement(in);
-            rsBus = psBus.executeQuery();
-            schedule.setModel(DbUtils.resultSetToTableModel(rsBus));
-        }
-        catch (Exception e){
-
-        }
-        finally {
-            try{
-                rsBus.close();
-                psBus.close();
-            }
-            catch (Exception e){
-
-            }
-        }
-
-
-
-
 
         JLabel j1 = new JLabel("Enter source");
         JLabel j2 = new JLabel("Enter destination");
@@ -188,10 +146,8 @@ public class addNewBooking {
         schedulePanel.setBackground(Color.WHITE);
         schedulePanel.setVisible(true);
 
-        schedule.setFont(schedule.getFont().deriveFont(20.0f));
-        schedule.setRowHeight(30);
-        schedule.getTableHeader().setFont(new Font("SansSerif", Font.ITALIC, 20));
-        JScrollPane sp = new JScrollPane(schedule);
+        updateBusTable ubt = new updateBusTable();
+        JScrollPane sp = new JScrollPane(ubt.getBusSchedule());
         schedulePanel.add(sp,"growx,pushx,wrap");
 
         JSplitPane splitPane = new JSplitPane();
@@ -204,30 +160,16 @@ public class addNewBooking {
         return splitPane;
     }
     public static void addNewBookingConfirmed() throws SQLException {
-        /**
-         * Bajwe idhar se tera kaam shuru hota hai. Textfield ki value lene k liye e.g. departure ki value chahiye toh
-         * phir likhna departure.getText();. Baqi ek jar file hogi git p usse external jar file add karde jese uCanAccess
-         * kari thi.
-         **/
+
         PreparedStatement psRes = null;
         ResultSet rsRes = null;
         Connection con = null;
         con = DriverManager.getConnection("jdbc:ucanaccess://e://oopdatabase.accdb");
 
+        reservation oRes = new reservation(departure.getText(),destination.getText(),departureDate.getText(),
+                returnDate.getText(),passengerName.getText(),passengerNameLast.getText(),passengerNic.getText(),
+                passengerPhone.getText(),passengerAddr.getText(),busName.getText(),busNumber.getText());
 
-        String dp = departure.getText();
-        String ds = destination.getText();
-        String dd = departureDate.getText();
-        String rd = returnDate.getText();
-        String pfn = passengerName.getText();
-        String pln = passengerNameLast.getText();
-        String pnic = passengerNic.getText();
-        String pp = passengerPhone.getText();
-        String pa = passengerAddr.getText();
-        String bn = busName.getText();
-        String bno = busNumber.getText();
-
-        reservation oRes = new reservation(dp,ds,dd,rd,pfn,pln,pnic,pp,pa,bn,bno);
         oRes.addReservation(psRes,con);
     }
 }

@@ -1,4 +1,4 @@
-
+// Importing essential packages
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 
+// Start screen
 class WelcomeScreen extends JFrame {
 
     //    Get the screen dimensions and then saving it into two variables for height and width.
@@ -161,7 +162,6 @@ class WelcomeScreen extends JFrame {
 //        Saving user name and password into two local variables.
             uname = variableCredentials.uname;
             pwd = String.valueOf(variableCredentials.pword);
-
 
             Connection con = null;
             PreparedStatement psAdmin = null;

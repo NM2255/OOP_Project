@@ -99,7 +99,6 @@ class reservation {
             System.out.println("busName " + rsRes.getString(11));
             System.out.println("busNumber " + rsRes.getString(12));
 
-
         };
 
 

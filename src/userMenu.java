@@ -90,6 +90,15 @@ public class userMenu {
                 }
             }
         });
+        b3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e)  {
+                try {
+                    viewBookingButtonPressed();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
 
         f1.validate();
     }
@@ -108,6 +117,15 @@ public class userMenu {
         f1.add(controls);
         splitPane.setTopComponent(controls);
         splitPane.setBottomComponent(addNewSchedule.addNewSchedule());
+        splitPane.setDividerLocation((int)height/6);
+        f1.validate();
+    }
+    public void viewBookingButtonPressed() throws Exception{
+        f1.remove(logo);
+        f1.add(addNewSchedule.addNewSchedule());
+        f1.add(controls);
+        splitPane.setTopComponent(controls);
+        splitPane.setBottomComponent(viewAllBookings.viewAllBookingsScreen());
         splitPane.setDividerLocation((int)height/6);
         f1.validate();
     }

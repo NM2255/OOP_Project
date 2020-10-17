@@ -1,7 +1,6 @@
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.Scanner;
 
 class bus {
     public int busId;
@@ -10,12 +9,8 @@ class bus {
     public String busRoute;
     public String busTiming;
 
-
-
     //constructor for bus class
-    public bus(){
-
-    }
+    public bus(){}
 
     public bus(String busName, String busNumber, String busRoute, String busTiming){
         this.busId = busId;
@@ -24,6 +19,7 @@ class bus {
         this.busRoute = busRoute;
         this.busTiming = busTiming;
     }
+
     //method for adding bus
     public void addBus(PreparedStatement psBus, Connection con) throws Exception{
         String in = ("insert into bus(busName,busNumber,busTiming,busRoute)"+
@@ -48,15 +44,10 @@ class bus {
         return busTiming;
     }
 
-    public void deleteBus(PreparedStatement psBus, Connection con, ResultSet rsBus) throws Exception {
-        //deletes Bus from database
-        Scanner dl = new Scanner(System.in);
-        System.out.println("enter id of pasenger");
-        int Id = dl.nextInt();
-        String delete = ("Delete from bus where ID=" + Id);
-        psBus = con.prepareStatement(delete);
+    public void deleteBus(PreparedStatement psBus, Connection con, ResultSet rsBus,String cell) throws Exception {
+        String sql = "DELETE FROM bus WHERE id = "+cell;
+        psBus = con.prepareStatement(sql);
         psBus.executeUpdate();
-        System.out.println("record delete successfully");
     }
 
     public void editBus(){
@@ -83,8 +74,7 @@ class bus {
             System.out.println("busTiming "+rsBus.getString(4));
             System.out.println("busRoute "+rsBus.getString(5));
 
-        };
-
+        }
 
     }
 }
