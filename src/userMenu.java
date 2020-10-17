@@ -10,11 +10,14 @@ public class userMenu {
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private double width = screenSize.getWidth();
     private double height = screenSize.getHeight();
-    JFrame f1 = new JFrame("Welcome, "+variableCredentials.uname+" | UBIT Travels and Tours");
+    static JFrame f1 = new JFrame("Welcome, "+variableCredentials.uname+" | UBIT Travels and Tours");
     JLabel j1 = new JLabel("Welcome, "+variableCredentials.uname);
     JPanel logo = new JPanel();
     JSplitPane splitPane = new JSplitPane();
     JPanel controls = new JPanel();
+    public static JFrame getf1(){
+        return f1;
+    }
     userMenu() {
         f1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f1.setVisible(true);
@@ -23,8 +26,6 @@ public class userMenu {
         JButton b1 = new JButton("Add new booking");
         JButton b2 = new JButton("Add new schedule");
         JButton b3 = new JButton("View all bookings");
-        JButton b4 = new JButton("View schedule");
-
 
         controls.setSize((int)width, (int)height);
         controls.setBackground(Color.WHITE);
@@ -58,12 +59,6 @@ public class userMenu {
         b3.setBorder(new RoundedBorder(40));
         controls.add(b3);
 
-        b4.setPreferredSize(new Dimension((int)width/5,44));
-        b4.setBackground(Color.WHITE);
-        b4.setFont (b4.getFont ().deriveFont (15.0f));
-        b4.setBorder(new RoundedBorder(40));
-        controls.add(b4);
-
         logo.setSize((int)width, (int)height);
         logo.setBackground(Color.PINK);
         logo.setVisible(true);
@@ -86,6 +81,15 @@ public class userMenu {
                 }
             }
         });
+        b2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e)  {
+                try {
+                    addNewScheduleButtonPressed();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
 
         f1.validate();
     }
@@ -95,6 +99,15 @@ public class userMenu {
         f1.add(controls);
         splitPane.setTopComponent(controls);
         splitPane.setBottomComponent(addNewBooking.addNewBookingScreen());
+        splitPane.setDividerLocation((int)height/6);
+        f1.validate();
+    }
+    public void addNewScheduleButtonPressed() throws Exception{
+        f1.remove(logo);
+        f1.add(addNewSchedule.addNewSchedule());
+        f1.add(controls);
+        splitPane.setTopComponent(controls);
+        splitPane.setBottomComponent(addNewSchedule.addNewSchedule());
         splitPane.setDividerLocation((int)height/6);
         f1.validate();
     }

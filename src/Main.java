@@ -176,9 +176,7 @@ class WelcomeScreen extends JFrame {
             }
             else{
                 JOptionPane.showMessageDialog(this, "Better luck next time bsdk!");
-
             }
-
         }
     }
 } // End of the WelcomeScreen Class.
