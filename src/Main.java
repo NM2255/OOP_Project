@@ -1,6 +1,7 @@
 // Importing essential packages
+
+import net.miginfocom.swing.MigLayout;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +18,6 @@ class WelcomeScreen extends JFrame {
     private String pwd;
     JTextField user_name = new JTextField(20);
     JPasswordField password = new JPasswordField(20);
-    JLabel empty = new JLabel();
     JLabel empty2 = new JLabel();
     JLabel empty5 = new JLabel();
 
@@ -36,79 +36,67 @@ class WelcomeScreen extends JFrame {
     public WelcomeScreen() {
 
 //        Basic settings of the JFrame.
-        this.setSize((int)width, (int)height);
+//        this.setSize((int)width, (int)height);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setTitle(newTitle.getText());
 
 //        Object initialization for handling data
         JLabel jl = new JLabel();
-        JLabel j2 = new JLabel();
-        JLabel j3 = new JLabel();
-        JLabel j6 = new JLabel();
+        JLabel j2 = new JLabel("UBIT Travels and Tours");
+        JLabel j3 = new JLabel("Enter your Username:");
+        JLabel j6 = new JLabel("Enter your Password:");
         JButton b1 = new JButton("Log In");
 
 //        Creating a new JPanel for JSplitPane and it's basic settings.
-        JPanel controls = new JPanel();
+        JPanel controls = new JPanel(new MigLayout());
         controls.setSize((int)width, (int)height);
         controls.setBackground(Color.GRAY);
         controls.setVisible(true);
 
 //        Icon and it's placement settings.
-        jl.setIcon(new ImageIcon("E:\\Java\\Programs\\E_TICKETING_SYSTEM_FINAL_PROJECT\\img\\logo.png"));
-        jl.setBorder(new EmptyBorder((int)(height/4.5),0,0,0));
-        controls.add(jl);
+        jl.setIcon(new ImageIcon("logo.png"));
+        controls.add(jl,"al center center,wrap,gapy 20%");
         add(controls);
 
 //        Text below the icon.
-        j2.setText("UBIT Travels and Tours");
-        controls.add(j2);
+        controls.add(j2,"al center center");
         j2.setForeground(Color.BLACK);
         j2.setFont (j2.getFont ().deriveFont (40.0f));
 
 //        Creating a new JPanel for JSplitPane and it's basic settings.
-        JPanel logo = new JPanel();
+        JPanel logo = new JPanel(new MigLayout("align center center","","30"));
         logo.setSize((int)width, (int)height);
         logo.setBackground(Color.WHITE);
         logo.setVisible(true);
 
-//        Empty labels are for adding space between two objects, they fulfill no additional purpose.
-        empty.setPreferredSize(new Dimension((int)width,300));
-        logo.add(empty);
-
 //        Label for username field.
-        j3.setText("Enter your Username:");
         j3.setFont (j3.getFont ().deriveFont (20.0f));
-        j3.setBorder(new EmptyBorder(0,0,0,33));
-        logo.add(j3);
+        logo.add(j3,"al right");
 
 //        User name field visual settings
         user_name.setFont (user_name.getFont ().deriveFont (20.0f));
-        logo.add(user_name);
-        empty2.setBorder(new EmptyBorder(10,(int)width,10,(int)width));
-        logo.add(empty2);
+        logo.add(user_name,"wrap,width 30%!");
+
+        logo.add(empty2,"wrap");
 
 //        Label for password field.
-        j6.setText("Enter your Password:");
         j6.setFont (j6.getFont ().deriveFont (20.0f));
-        j6.setBorder(new EmptyBorder(0,0,0,36));
-        logo.add(j6);
+        logo.add(j6,"al right");
 
 //        Password field visual settings
         password.setFont (password.getFont ().deriveFont (20.0f));
-        logo.add(password);
+        logo.add(password,"wrap,width 30%!");
+        logo.add(empty5,"wrap");
 
-        empty5.setBorder(new EmptyBorder(10,(int)width,10,(int)width));
-        logo.add(empty5);
-
-
+        logo.add(new JLabel());
 
 //        Adding the button to JPanel and tweaking it's visual settings.
-        b1.setPreferredSize(new Dimension((int)width/10,44));
         b1.setBackground(Color.WHITE);
         b1.setFont (b1.getFont ().deriveFont (15.0f));
         b1.setBorder(new RoundedBorder(40));
-        logo.add(b1);
+        logo.add(b1,"width "+(int)width/8+"!, height 50!");
 
 //        Creating a split pane two incorporate two JPanels in a single JFrame.
         JSplitPane splitPane = new JSplitPane();
@@ -139,7 +127,6 @@ class WelcomeScreen extends JFrame {
 
     //    Function declaration for the button press.
     public void registerButtonPressed() throws SQLException {
-
 
         if(user_name.getText().trim().equals("")){
             empty2.setText("Enter your username!");

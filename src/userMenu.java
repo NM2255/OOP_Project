@@ -19,6 +19,7 @@ public class userMenu {
         f1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f1.setVisible(true);
         f1.setSize((int)width, (int)height);
+        f1.setExtendedState(JFrame.MAXIMIZED_BOTH);
         JLabel empty = new JLabel();
         JButton b1 = new JButton("Add new booking");
         JButton b2 = new JButton("Add new schedule");
