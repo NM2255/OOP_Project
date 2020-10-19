@@ -26,17 +26,12 @@ class reservation {
 
     }
 
-    public reservation(String departure, String destination, String departureDate, String returnDate, String passengerFirstname, String passengerLastname, String passengerNic, String passengerPhone, String passengerAddr, String busName, String busNumber){
+    public reservation(String departure, String destination, String departureDate, String returnDate,  String busName, String busNumber){
         this.reservationId = reservationId;
         this.departure = departure;
         this.destination = destination;
         this.departureDate = departureDate;
         this.returnDate = returnDate;
-        this.passengerFirstname= passengerFirstname;
-        this.passengerLastname = passengerLastname;
-        this.passengerLastname = passengerNic;
-        this.passengerPhone = passengerPhone;
-        this.passengerAddr = passengerAddr;
         this.busName = busName;
         this.busNumber = busNumber;
 
@@ -45,11 +40,11 @@ class reservation {
 
 
 
-    public void addReservation(PreparedStatement psRes, Connection con) throws SQLException {
+    public void addReservation(PreparedStatement psRes, Connection con,passenger oPsngr) throws SQLException {
 
         //adds reservation details to database
         String in = ("insert into reservation(departure,destination,departureDate,returnDate,passengerFirstname,passengerLastname,passengerNic,passengerPhone,passengerAddr,busName,busNumber)" +
-                "values ('" + departure + "','" + destination + "','" + departureDate + "','" + returnDate + "','" + passengerFirstname+ "','" + passengerLastname+ "','" + passengerNic + "','" + passengerPhone + "','" + passengerAddr + "','" + busName + "','" + busNumber + "')");
+                "values ('" + departure + "','" + destination + "','" + departureDate + "','" + returnDate + "','" + oPsngr.getPassengerfirstName()+ "','" + oPsngr.getPassengerlastName()+ "','" + oPsngr.getPassengerNic() + "','" + oPsngr.getPassengerPhone() + "','" + oPsngr.getPassengerAddr() + "','" + busName + "','" + busNumber + "')");
         psRes = con.prepareStatement(in);
         psRes.executeUpdate();
     }

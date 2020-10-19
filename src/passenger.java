@@ -16,7 +16,7 @@ class passenger {
 
     }
 
-    public passenger( int passengerId,String passengerfirstName,String passengerlastName, String passengerPhone, String passengerAddr, String passengerNic){
+    public passenger(String passengerfirstName,String passengerlastName,String passengerNic, String passengerPhone, String passengerAddr ){
         this.passengerId = passengerId;
         this.passengerfirstName = passengerfirstName;
         this.passengerlastName = passengerlastName;

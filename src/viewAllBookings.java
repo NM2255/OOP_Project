@@ -16,7 +16,7 @@ public class viewAllBookings {
         options.setLayout(new MigLayout());
 
         reservation res = new reservation();
-        JTable schedule = res.showReservation(DriverManager.getConnection("jdbc:ucanaccess://e://oopdatabase.accdb"));
+        JTable schedule = res.showReservation(DriverManager.getConnection(variableCredentials.con));
         JScrollPane sp = new JScrollPane(schedule);
         options.add(sp,"growx,pushx,wrap");
 

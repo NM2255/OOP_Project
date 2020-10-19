@@ -147,7 +147,7 @@ public class addNewBooking {
         schedulePanel.setVisible(true);
 
         bus BUS = new bus();
-        JTable schedule = BUS.showSchedule(DriverManager.getConnection("jdbc:ucanaccess://e://oopdatabase.accdb"));
+        JTable schedule = BUS.showSchedule(DriverManager.getConnection("jdbc:ucanaccess://oopdatabase1.accdb"));
         JScrollPane sp = new JScrollPane(schedule);
         schedulePanel.add(sp,"growx,pushx,wrap");
 
@@ -165,12 +165,16 @@ public class addNewBooking {
         PreparedStatement psRes = null;
         ResultSet rsRes = null;
         Connection con = null;
-        con = DriverManager.getConnection("jdbc:ucanaccess://e://oopdatabase.accdb");
+        con = DriverManager.getConnection("jdbc:ucanaccess://oopdatabase1.accdb");
+        passenger oPsngr = new passenger(passengerName.getText(),passengerNameLast.getText(),passengerNic.getText(),passengerPhone.getText(),passengerAddr.getText());
 
         reservation oRes = new reservation(departure.getText(),destination.getText(),departureDate.getText(),
-                returnDate.getText(),passengerName.getText(),passengerNameLast.getText(),passengerNic.getText(),
-                passengerPhone.getText(),passengerAddr.getText(),busName.getText(),busNumber.getText());
+                returnDate.getText(),busName.getText(),busNumber.getText());
 
-        oRes.addReservation(psRes,con);
+       // reservation oRes = new reservation(departure.getText(),destination.getText(),departureDate.getText(),
+             //   returnDate.getText(),passengerName.getText(),passengerNameLast.getText(),passengerNic.getText(),
+               // passengerPhone.getText(),passengerAddr.getText(),busName.getText(),busNumber.getText());
+
+        oRes.addReservation(psRes,con,oPsngr);
     }
 }

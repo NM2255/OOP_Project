@@ -153,7 +153,7 @@ class WelcomeScreen extends JFrame {
             Connection con = null;
             PreparedStatement psAdmin = null;
             ResultSet rsAdmin = null;
-            con = DriverManager.getConnection("jdbc:ucanaccess://e://oopdatabase.accdb");
+            con = DriverManager.getConnection("jdbc:ucanaccess://oopdatabase1.accdb");
 
             admin oAdmin = new admin(uname,pwd);
             oAdmin.searchAdmin(psAdmin,con,rsAdmin,uname,pwd);
@@ -162,7 +162,7 @@ class WelcomeScreen extends JFrame {
                 new userMenu();
             }
             else{
-                JOptionPane.showMessageDialog(this, "Better luck next time bsdk!");
+                JOptionPane.showMessageDialog(this, "rocket science!");
             }
         }
     }

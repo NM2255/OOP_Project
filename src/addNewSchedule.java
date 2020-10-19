@@ -36,28 +36,28 @@ public class addNewSchedule {
 
         busName.setFont (busName.getFont ().deriveFont (20.0f));
         busName.setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.BLACK));
-        options.add(busName,"wrap, width 490!");
+        options.add(busName,"wrap, width 400!");
 
         j2.setFont (j2.getFont ().deriveFont (20.0f));
         options.add(j2,"al right");
 
         busNumber.setFont (busNumber.getFont ().deriveFont (20.0f));
         busNumber.setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.BLACK));
-        options.add(busNumber,"wrap, width 490!");
+        options.add(busNumber,"wrap, width 400!");
 
         j3.setFont (j3.getFont ().deriveFont (20.0f));
         options.add(j3,"al right");
 
         busRoute.setFont (busRoute.getFont ().deriveFont (20.0f));
         busRoute.setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.BLACK));
-        options.add(busRoute,"wrap, width 490!");
+        options.add(busRoute,"wrap, width 400!");
 
         j4.setFont (j4.getFont ().deriveFont (20.0f));
         options.add(j4,"al right");
 
         busTiming.setFont (busTiming.getFont ().deriveFont (20.0f));
         busTiming.setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.BLACK));
-        options.add(busTiming,"wrap, width 490!");
+        options.add(busTiming,"wrap, width 400!");
 
         options.add(new JLabel(""));
 
@@ -67,7 +67,7 @@ public class addNewSchedule {
         options.add(addBooking,"width "+(int)width/8+"!, height 50!");
 
         bus BUS = new bus();
-        JTable schedule = BUS.showSchedule(DriverManager.getConnection("jdbc:ucanaccess://e://oopdatabase.accdb"));
+        JTable schedule = BUS.showSchedule(DriverManager.getConnection("jdbc:ucanaccess://oopdatabase1.accdb"));
         JScrollPane sp = new JScrollPane(schedule);
 
         addBooking.addActionListener(new ActionListener() {
@@ -90,7 +90,7 @@ public class addNewSchedule {
         delete.setFont(delete.getFont().deriveFont(15.0f));
         delete.setBackground(Color.WHITE);
         delete.setBorder(new RoundedBorder(55));
-        schedulePanel.add(delete,"width "+(int)width/8+"!, height 50!");
+        schedulePanel.add(delete,"width "+(int)width/5+"!, height 50!");
 
         delete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -102,7 +102,7 @@ public class addNewSchedule {
                     int row = schedule.getSelectedRow();
                     String cell = schedule.getModel().getValueAt(row,0).toString();
                     try {
-                        con = DriverManager.getConnection("jdbc:ucanaccess://e://oopdatabase.accdb");
+                        con = DriverManager.getConnection("jdbc:ucanaccess://oopdatabase1.accdb");
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
@@ -140,7 +140,7 @@ public class addNewSchedule {
             busTiming.setText("");
             PreparedStatement ps = null;
             Connection con = null;
-            con = DriverManager.getConnection("jdbc:ucanaccess://e://oopdatabase.accdb");
+            con = DriverManager.getConnection("jdbc:ucanaccess://oopdatabase1.accdb");
             bs.addBus(ps,con);
         }
     }
