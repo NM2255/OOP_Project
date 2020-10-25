@@ -1,11 +1,12 @@
+import net.miginfocom.swing.MigLayout;
+
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Scanner;
+import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 class reservation {
     public int reservationId;
@@ -37,30 +38,49 @@ class reservation {
 
     }
 
-
-
-
-    public void addReservation(PreparedStatement psRes, Connection con,passenger oPsngr) throws SQLException {
+    public void addReservation(PreparedStatement psRes ,Connection con,passenger oPsngr) throws SQLException {
 
         //adds reservation details to database
         String in = ("insert into reservation(departure,destination,departureDate,returnDate,passengerFirstname,passengerLastname,passengerNic,passengerPhone,passengerAddr,busName,busNumber)" +
                 "values ('" + departure + "','" + destination + "','" + departureDate + "','" + returnDate + "','" + oPsngr.getPassengerfirstName()+ "','" + oPsngr.getPassengerlastName()+ "','" + oPsngr.getPassengerNic() + "','" + oPsngr.getPassengerPhone() + "','" + oPsngr.getPassengerAddr() + "','" + busName + "','" + busNumber + "')");
-        psRes = con.prepareStatement(in);
+        psRes = con.prepareStatement(in,Statement.RETURN_GENERATED_KEYS);
         psRes.executeUpdate();
+
+        ResultSet rs = psRes.getGeneratedKeys();
+
+        int generatedKey = 0;
+        if (rs.next()) {
+            generatedKey = rs.getInt(1);
+        }
+
+        DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+        Calendar calobj = Calendar.getInstance();
+
+        JPanel table = new JPanel(new MigLayout("align center","4%","4%"));
+        JLabel name = new JLabel("STRADA");
+        JLabel our_addr = new JLabel("STRADA Inc., Bori Bazar.");
+        JLabel ps_id = new JLabel("Passenger ID                : "+generatedKey);
+        JLabel ps_name = new JLabel("Passenger Name        : "+oPsngr.getPassengerfirstName()+" "+oPsngr.getPassengerlastName());
+        JLabel a_name = new JLabel("Issued by                       : Mr. "+variableCredentials.uname.toUpperCase());
+        JLabel f_to = new JLabel("From/To                          : "+departure+" / "+destination);
+        JLabel d_iss = new JLabel("Date Issued                   : "+df.format(calobj.getTime()));
+        table.add(name,"wrap");
+        table.add(our_addr,"wrap");
+        table.add(ps_id,"wrap");
+        table.add(ps_name,"wrap");
+        table.add(a_name,"wrap");
+        table.add(f_to,"wrap");
+        table.add(d_iss,"wrap");
+        JOptionPane.showMessageDialog(null,table);
+
     }
 
 
-    public void deleteReservation(PreparedStatement psRes, Connection con)throws Exception{
+    public void deleteReservation(PreparedStatement psBus, Connection con, ResultSet rsBus,String cell) throws Exception{
         //delete reservation details from database
-        Scanner dl=new Scanner(System.in);
-        System.out.println("enter id of pasenger reservation");
-        int Id=dl.nextInt();
-        String dlete = ("Delete from reservation where ID="+Id);
-        psRes=con.prepareStatement(dlete);
-        psRes.executeUpdate();
-        System.out.println("record delete successfully");
-
-
+        String sql = "DELETE FROM reservation WHERE id = "+cell;
+        psBus = con.prepareStatement(sql);
+        psBus.executeUpdate();
     }
 
     public void editReservation(PreparedStatement psRes, Connection con)throws Exception{
@@ -68,12 +88,26 @@ class reservation {
 
     }
 
-
-
-
-    public void searchReservation()throws Exception{
+    public JTable searchReservation(String cell) throws Exception{
         //search reservation details from database
+        PreparedStatement psRes = null;
+        ResultSet rsRes;
+        Connection con = null;
+        con = DriverManager.getConnection("jdbc:ucanaccess://oopdatabase1.accdb");
+        String sql = "SELECT * from reservation where id = "+cell;
+        psRes = con.prepareStatement(sql);
+        rsRes = psRes.executeQuery();
 
+        JTable table = new JTable(buildTableModel.BuildTableModel(rsRes));
+
+        table.setFillsViewportHeight(true);
+        table.setFont(table.getFont().deriveFont(20.0f));
+        table.setRowHeight(60);
+        TableColumnModel columnModel = table.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(10);
+        table.getTableHeader().setFont(new Font("SansSerif", Font.ITALIC, 20));
+
+        return table;
     }
 
     public JTable showReservation(Connection con) throws Exception {
@@ -96,4 +130,18 @@ class reservation {
 
         return table;
     }
+
+/*    public void showTicket(reservation oRes,passenger oPsngr,bus oBus, String date){
+
+        DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+        Calendar calobj = Calendar.getInstance();
+//        System.out.println(df.format(calobj.getTime()));
+
+        System.out.println("Strada\nAddress : UBIT\nPassenger Name                          : " + oPsngr.getPassengerfirstName() + " " + oPsngr.getPassengerlastName() +
+                "\nPassenger ID                          : " + *//*oPsngr.getId()*//* "ship" +
+                "\nIssued by                          : Sales department of strada" +
+                "\nD.Date                          : " + oBus.getBusTiming() +
+                "\nFrom/To                          : " + oRes.departure + " / " + oRes.destination +
+                "\nDate issued                          : " + df.format(calobj.getTime()));
+    }*/
 }

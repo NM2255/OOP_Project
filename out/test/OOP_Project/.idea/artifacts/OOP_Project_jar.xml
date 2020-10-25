@@ -1,0 +1,18 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="OOP_Project:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/OOP_Project_jar</output-path>
+    <root id="archive" name="OOP_Project.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/../../poti/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="OOP_Project" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/jar/jackcess-3.0.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/jar/commons-logging-1.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/jar/commons-lang3-3.8.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/jar/ucanaccess-5.0.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/jar/hsqldb-2.5.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/jar/miglayout-4.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/jar/rs2xml.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
