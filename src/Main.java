@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.sql.*;
-import java.util.concurrent.BrokenBarrierException;
 
 // Start screen
 class WelcomeScreen extends JFrame {

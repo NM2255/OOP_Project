@@ -49,7 +49,7 @@ public class addNewBooking {
 
         Color yellow = new Color(133, 174, 191);
 
-        JButton addBooking = new JButton("Add Reservation");
+        JButton addBooking = new JButton("Confirm Booking");
         JButton back = new JButton("Back");
 
         options.setLayout(new MigLayout("","align center center","[]4%[]"));

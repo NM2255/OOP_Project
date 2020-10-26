@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class userMenu<IOExeption>{
+public class userMenu {
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private double width = screenSize.getWidth();
     private double height = screenSize.getHeight();
